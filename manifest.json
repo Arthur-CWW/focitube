@@ -1,17 +1,22 @@
 {
 	"manifest_version": 3,
-	"name": "CRXJS React Vite Example",
+	"name": "Focitube",
 	"version": "1.0.0",
 	"action": {
 		"default_popup": "index.html"
 	},
+	"permissions": [
+		"tabs",
+		"webRequest",
+		"webRequestBlocking"
+	],
 	"content_scripts": [
 		{
 			"matches": [
 				"*://*.youtube.com/*"
 			],
 			"js": [
-				"src/content.tsx"
+				"src/youtube.tsx"
 			]
 		}
 	]
