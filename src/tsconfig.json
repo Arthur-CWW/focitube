@@ -1,0 +1,11 @@
+{
+	"compilerOptions": {
+		"strict": true,
+		"module": "esnext",
+		"moduleResolution": "node",
+		"target": "ESNext",
+		"jsx": "react",
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true
+	}
+}
