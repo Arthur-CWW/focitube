@@ -1,10 +1,7 @@
-function filterOld() {
+function getAllVids() {
   const nodes = document.querySelectorAll('#content') as NodeListOf<HTMLElement>;
-  // const metaData = [] as any[];
-  nodes.forEach((thumbnail) => {
-    const videoTitleElement = thumbnail
-      .querySelector('#meta')
-      ?.querySelector('#video-title-link') as HTMLAnchorElement;
+  return Array.from(nodes).map((thumbnail) => {
+    const videoTitleElement = thumbnail.querySelector('#video-title-link') as HTMLAnchorElement;
     if (!videoTitleElement) {
       console.log('No video title element found');
       return;
@@ -14,25 +11,23 @@ function filterOld() {
       console.log('No video data found');
       return;
     }
-    // const metadata = thumbnail.querySelector('#metadata') as HTMLElement;
-    // change the color of the thumbnail
     const vid = parseVideo(videoData);
-
     if (!vid) {
       console.log('Could not parse video data');
       return;
     }
-
     const { title, channel, date, views } = vid;
     console.log('Title:', title, 'Channel:', channel, 'Age:', date, 'View Count:', views);
+    const tmp = new WeakRef(thumbnail);
+    return { ...vid, vid: tmp };
   });
 }
 
 function parseVideo(str: string) {
-  // Split string by spaces
   let parts = str.split(' ');
 
-  // Find the index of 'by', 'ago' and 'views', as these are constant and we can use them as reference points
+  // '"Clean" Code, Horrible Performance by Molly Rocket 4 months ago 22 minutes 617,296 views',
+
   let byIndex = parts.lastIndexOf('by');
   let agoIndex = parts.lastIndexOf('ago');
   let viewsIndex = parts.lastIndexOf('views');
@@ -50,10 +45,8 @@ function parseVideo(str: string) {
   // The words between 'ago' and 'views' are the relative date
   let relativeDateStr = parts.slice(agoIndex - 2, agoIndex).join(' ');
   let date = convertRelativeDate(relativeDateStr);
-
   // The word before 'views' is the views count
   let views = parseInt(parts[viewsIndex - 1].replace(/,/g, ''));
-
   return {
     title,
     channel,
@@ -89,7 +82,7 @@ function convertRelativeDate(relativeDateStr: string) {
   return date;
 }
 
-function main() {
+function testParse() {
   const tests = [
     '"Clean" Code, Horrible Performance by Molly Rocket 4 months ago 22 minutes 617,296 views',
     '"Clean" Code, Horrible Performance by Molly Rocket 4 months ago 22 minutes 617,296 views',
@@ -186,4 +179,6 @@ function main() {
   const res = tests.map((test) => parseVideo(test));
   console.table(res);
 }
-main();
+testParse();
+
+getAllVids();
