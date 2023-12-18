@@ -36,45 +36,45 @@ function main() {
 
   const data = getNodes(document.getElementById('content'));
 
-  // const observer = new MutationObserver((mutationsList) => {
-  //   for (const mutation of mutationsList) {
-  //     if (mutation.type === 'childList') {
-  //       // Check if new elements of type 'ytd-grid-video-renderer' were added
-  //       const addedNodes = Array.from(mutation.addedNodes);
-  //       const newThumbnails = addedNodes.filter(
-  //         (node) => node.tagName === 'YTD-GRID-VIDEO-RENDERER'
-  //       );
+  const observer = new MutationObserver((mutationsList) => {
+    for (const mutation of mutationsList) {
+      if (mutation.type === 'childList') {
+        // Check if new elements of type 'ytd-grid-video-renderer' were added
+        const addedNodes = Array.from(mutation.addedNodes);
+        const newThumbnails = addedNodes.filter(
+          (node) => node.tagName === 'YTD-GRID-VIDEO-RENDERER'
+        );
 
-  //       if (newThumbnails.length > 0) {
-  //         newThumbnails.forEach((thumbnail) => {
-  //           console.log(thumbnail);
-  //           // getNodes(thumbnail);
-  //         });
-  //       }
-  //     }
-  //   }
-  // });
-  // console.log('running mutation observer');
-  // const observerConfig = { childList: true, subtree: true };
-  // observer.observe(content, observerConfig);
+        if (newThumbnails.length > 0) {
+          newThumbnails.forEach((thumbnail) => {
+            console.log(thumbnail);
+            // getNodes(thumbnail);
+          });
+        }
+      }
+    }
+  });
+  console.log('running mutation observer');
+  const observerConfig = { childList: true, subtree: true };
+  observer.observe(content, observerConfig);
 
-  // addDataToIndexedDB(data);
-  // const thumbnails = document.querySelectorAll('ytd-rich-item-renderer');
-  // thumbnails.forEach((thumbnail) => {
-  //   const content = thumbnail.querySelector('#dismissible');
-  //   thumbnail.classList.add('bg-red-500');
-  //   let container = document.createElement('div');
-  //   content?.appendChild(container);
-  //   if (content) {
-  //     render(() => <NormalButton />, container);
-  //   }
-  // });
+  addDataToIndexedDB(data);
+  const thumbnails = document.querySelectorAll('ytd-rich-item-renderer');
+  thumbnails.forEach((thumbnail) => {
+    const content = thumbnail.querySelector('#dismissible');
+    thumbnail.classList.add('bg-red-500');
+    let container = document.createElement('div');
+    content?.appendChild(container);
+    if (content) {
+      render(() => <NormalButton />, container);
+    }
+  });
 }
 chrome.webRequest.onRequest
   (details) => {
     {
       if(details.url.includes('get_transcript')) {
-        fa
+
       }
     }
   { urls: ['https://www.youtube.com/*'] },
