@@ -1,9 +1,15 @@
 import { crx } from '@crxjs/vite-plugin';
-import react from '@vitejs/plugin-react';
-import { defineConfig } from 'vite';
 import manifest from './manifest.json';
 
-// https://vitejs.dev/config/
+import { defineConfig } from 'vite';
+import solidPlugin from 'vite-plugin-solid';
+
 export default defineConfig({
-  plugins: [react(), crx({ manifest })],
+  plugins: [solidPlugin(), crx({ manifest })],
+  server: {
+    port: 3000,
+  },
+  build: {
+    target: 'esnext',
+  },
 });
